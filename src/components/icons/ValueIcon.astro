@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets';
+import natural from '../../assets/icons/value-natural.png';
+import chisto from '../../assets/icons/value-chisto.png';
+import harmonia from '../../assets/icons/value-harmonia.png';
+import avtentichnost from '../../assets/icons/value-avtentichnost.png';
+import ustoichivost from '../../assets/icons/value-ustoichivost.png';
+
+interface Props {
+  variant: 1 | 2 | 3 | 4 | 5;
+  class?: string;
+}
+const { variant, class: className = '' } = Astro.props;
+
+const sources = { 1: natural, 2: chisto, 3: harmonia, 4: avtentichnost, 5: ustoichivost };
+const src = sources[variant];
+---
+
+<Image src={src} alt="" width={44} height={Math.round((44 * src.height) / src.width)} class={className} />

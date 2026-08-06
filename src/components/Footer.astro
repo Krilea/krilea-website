@@ -1,0 +1,165 @@
+---
+import { NAV, LEGAL_LINKS, SITE, SOCIAL } from '../config/site';
+import NewsletterForm from './NewsletterForm.astro';
+import SocialIcon from './icons/SocialIcon.astro';
+import BotanicalDivider from './icons/BotanicalDivider.astro';
+
+const socialEntries = Object.entries(SOCIAL).filter(([, url]) => url) as [keyof typeof SOCIAL, string][];
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <p class="site-footer__wordmark">{SITE.name}</p>
+      <p class="site-footer__tagline">{SITE.tagline}</p>
+      <p class="site-footer__essence">{SITE.brandEssence}</p>
+      {socialEntries.length > 0 && (
+        <div class="site-footer__social">
+          {socialEntries.map(([name, url]) => (
+            <a href={url} target="_blank" rel="noopener noreferrer" aria-label={name}>
+              <SocialIcon name={name} />
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <nav class="site-footer__col" aria-label="Навигация">
+      <p class="eyebrow eyebrow--on-dark">Навигация</p>
+      <ul>
+        {NAV.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav class="site-footer__col" aria-label="Правна информация">
+      <p class="eyebrow eyebrow--on-dark">Правна информация</p>
+      <ul>
+        {LEGAL_LINKS.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+      <p class="site-footer__email">
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+    </nav>
+
+    <div class="site-footer__col site-footer__newsletter">
+      <NewsletterForm variant="compact" onDark={true} />
+    </div>
+  </div>
+
+  <div class="container">
+    <BotanicalDivider onDark class="divider--on-dark" />
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>&copy; {year} {SITE.name}. Всички права запазени.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-forest);
+    color: var(--color-cream-text);
+    padding-block: clamp(3rem, 6vw, 5rem) 2rem;
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .site-footer__wordmark {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    margin: 0 0 0.2rem;
+  }
+
+  .site-footer__tagline {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-sage-soft);
+    margin-bottom: 1.3rem;
+  }
+
+  .site-footer__essence {
+    font-size: 0.92rem;
+    color: var(--color-sage-soft);
+    max-width: 30rem;
+    line-height: 1.7;
+  }
+
+  .site-footer__social {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .site-footer__social a {
+    color: var(--color-cream-text);
+    opacity: 0.85;
+    transition: opacity 0.2s ease, color 0.2s ease;
+  }
+
+  .site-footer__social a:hover {
+    opacity: 1;
+    color: var(--color-herbal-soft);
+  }
+
+  .site-footer__col ul {
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .site-footer__col a {
+    text-decoration: none;
+    color: var(--color-cream-text);
+    font-size: 0.92rem;
+    opacity: 0.9;
+  }
+
+  .site-footer__col a:hover {
+    opacity: 1;
+    color: var(--color-herbal-soft);
+  }
+
+  .site-footer__email {
+    margin-top: 1.4rem;
+    font-size: 0.92rem;
+  }
+
+  .site-footer__bottom {
+    padding-top: 1.5rem;
+    font-size: 0.78rem;
+    color: var(--color-sage);
+    text-align: center;
+  }
+
+  .site-footer__bottom p {
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

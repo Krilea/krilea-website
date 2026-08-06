@@ -1,0 +1,75 @@
+---
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import { SITE } from '../config/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  noindex?: boolean;
+}
+
+const { title, description, image, type, publishedTime, noindex } = Astro.props;
+const cfBeaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.brandEssence,
+  email: SITE.email,
+  logo: `${SITE.url}/icon-512.png`,
+};
+---
+
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Seo title={title} description={description} image={image} type={type} publishedTime={publishedTime} noindex={noindex} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/favicon-32x32-dark.png" sizes="32x32" type="image/png" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon-16x16-dark.png" sizes="16x16" type="image/png" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#2e4a32" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+    {cfBeaconToken && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${cfBeaconToken}"}`}
+      />
+    )}
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Към съдържанието</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <CookieConsent />
+    <script>
+      // Пренасочва линковете от Netlify Identity имейли (покана/възстановяване на парола) към /admin/,
+      // където widget-ът на Decap CMS може да обработи token-а.
+      if (/^#(confirmation_token|invite_token|recovery_token|email_change_token)=/.test(location.hash)) {
+        location.replace('/admin/' + location.hash);
+      }
+    </script>
+  </body>
+</html>

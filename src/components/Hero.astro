@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import butterfly from '../assets/logo/butterfly.png';
+import { SITE } from '../config/site';
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <Image src={butterfly} alt="" width={170} height={171} loading="eager" class="hero__butterfly" />
+    <h1 class="hero__wordmark">{SITE.name}</h1>
+    <p class="hero__tagline">{SITE.tagline}</p>
+    <p class="hero__promise">
+      Здрава, силна и жива коса — грижа, вдъхновена от природата и подкрепена от науката.
+    </p>
+    <a href="#brand-essence" class="hero__scroll" aria-label="Продължете надолу">
+      <span class="hero__scroll-line"></span>
+      Открийте повече
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: radial-gradient(130% 150% at 50% -10%, #375a3d 0%, #2e4a32 55%, #1f3320 100%);
+    color: var(--color-cream-text);
+    min-height: 66vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-block: 3rem;
+  }
+
+  .hero__butterfly {
+    width: min(170px, 36vw);
+    height: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero__wordmark {
+    font-weight: 400;
+    font-size: clamp(2.4rem, 6.4vw, 4rem);
+    letter-spacing: 0.17em;
+    margin-bottom: 0.5rem;
+    color: var(--color-cream-text);
+  }
+
+  .hero__tagline {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--color-sage-soft);
+    margin-bottom: 2.2rem;
+  }
+
+  .hero__promise {
+    max-width: 34rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+    line-height: 1.6;
+    color: var(--color-cream-text);
+    margin-bottom: 3rem;
+  }
+
+  .hero__scroll {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--color-sage-soft);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .hero__scroll-line {
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(var(--color-herbal-soft), transparent);
+  }
+</style>

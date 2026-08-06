@@ -1,0 +1,93 @@
+---
+---
+<div id="cookie-consent" class="cookie-consent" hidden>
+  <div class="cookie-consent__inner">
+    <p class="cookie-consent__text">
+      Използваме бисквитки единствено за нуждите на сайта и щадяща, непроследяваща статистика. Повече в
+      <a href="/politika-za-biskvitki/">Политиката за бисквитки</a>.
+    </p>
+    <div class="cookie-consent__actions">
+      <button type="button" class="btn btn--ghost" data-cookie-decline>Само необходими</button>
+      <button type="button" class="btn btn--solid" data-cookie-accept>Приемам</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cookie-consent {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 80;
+    max-width: 640px;
+    margin-inline: auto;
+    background: var(--color-paper);
+    border: 1px solid var(--color-sage-soft);
+    box-shadow: var(--shadow-soft);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.6rem;
+  }
+
+  .cookie-consent__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2rem;
+    justify-content: space-between;
+  }
+
+  .cookie-consent__text {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--color-ink);
+    flex: 1 1 20rem;
+  }
+
+  .cookie-consent__text a {
+    color: var(--color-forest);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cookie-consent__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .btn--ghost {
+    color: var(--color-forest);
+    border-color: var(--color-sage);
+    font-size: 0.72rem;
+    padding: 0.75rem 1.3rem;
+  }
+
+  .cookie-consent__actions .btn--solid {
+    font-size: 0.72rem;
+    padding: 0.75rem 1.3rem;
+  }
+</style>
+
+<script>
+  const KEY = 'krilea-cookie-consent';
+  const banner = document.getElementById('cookie-consent');
+
+  function showIfNeeded() {
+    if (!banner) return;
+    const stored = localStorage.getItem(KEY);
+    if (!stored) banner.hidden = false;
+  }
+
+  function setConsent(value: 'accepted' | 'declined') {
+    localStorage.setItem(KEY, value);
+    if (banner) banner.hidden = true;
+    window.dispatchEvent(new CustomEvent('krilea:cookie-consent', { detail: value }));
+  }
+
+  banner?.querySelector('[data-cookie-accept]')?.addEventListener('click', () => setConsent('accepted'));
+  banner?.querySelector('[data-cookie-decline]')?.addEventListener('click', () => setConsent('declined'));
+
+  showIfNeeded();
+</script>

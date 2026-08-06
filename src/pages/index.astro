@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import BrandEssence from '../components/BrandEssence.astro';
+import ValuesList from '../components/ValuesList.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import { SITE } from '../config/site';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title={SITE.name} description={SITE.brandEssence}>
+  <Hero />
+  <BrandEssence />
+  <ValuesList />
+
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow home-articles__eyebrow">Последно от Журнала</p>
+        <div class="home-articles__grid">
+          {posts.map((entry) => <ArticleCard entry={entry} />)}
+        </div>
+        <div class="home-articles__cta">
+          <a href="/zhurnal/" class="btn">Към Журнала</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--dark">
+    <div class="container">
+      <NewsletterForm variant="full" onDark={true} />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .home-articles__eyebrow {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .home-articles__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+  }
+
+  .home-articles__cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+</style>

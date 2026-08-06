@@ -1,0 +1,182 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import BotanicalDivider from '../components/icons/BotanicalDivider.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import { SITE } from '../config/site';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+  readingTime: number;
+  related: CollectionEntry<'blog'>[];
+}
+
+const { entry, readingTime, related } = Astro.props;
+const { title, description, cover, coverAlt, pubDate, updatedDate } = entry.data;
+
+const formattedDate = new Intl.DateTimeFormat('bg-BG', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(pubDate);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: { '@type': 'Organization', name: SITE.name },
+  publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  mainEntityOfPage: new URL(`/zhurnal/${entry.id}/`, SITE.url).toString(),
+};
+---
+
+<BaseLayout title={title} description={description} type="article" publishedTime={pubDate}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article class="article">
+    <header class="article__header container container--narrow">
+      <p class="eyebrow article__eyebrow">Журнал</p>
+      <h1>{title}</h1>
+      <p class="article__meta">{formattedDate} · {readingTime} мин. четене</p>
+    </header>
+
+    <div class="article__cover container">
+      <img src={cover} alt={coverAlt} loading="eager" decoding="async" />
+    </div>
+
+    <div class="container container--narrow prose">
+      <slot />
+    </div>
+
+    <div class="container container--narrow">
+      <BotanicalDivider class="article__divider" />
+    </div>
+
+    <div class="container container--narrow article__newsletter">
+      <NewsletterForm variant="full" onDark={false} />
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section related">
+      <div class="container">
+        <p class="eyebrow related__eyebrow">Още от Журнала</p>
+        <div class="related__grid">
+          {related.map((item) => <ArticleCard entry={item} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .article__header {
+    text-align: center;
+    padding-block: clamp(3rem, 6vw, 5rem) 2.5rem;
+  }
+
+  .article__eyebrow {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .article__meta {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+  }
+
+  .article__cover {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .article__cover :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 3;
+    object-fit: cover;
+  }
+
+  .article__divider {
+    margin: 3rem auto;
+  }
+
+  .article__newsletter {
+    background: var(--color-cream-soft);
+    border: 1px solid var(--color-sage-soft);
+    padding: clamp(2rem, 4vw, 3rem);
+    border-radius: var(--radius);
+    margin-bottom: 4rem;
+  }
+
+  .prose {
+    font-size: 1.08rem;
+    line-height: 1.85;
+    color: var(--color-ink);
+  }
+
+  .prose :global(h2) {
+    margin-top: 2.4em;
+    font-size: 1.7rem;
+  }
+
+  .prose :global(h3) {
+    margin-top: 2em;
+    font-size: 1.3rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.4em;
+  }
+
+  .prose :global(a) {
+    color: var(--color-forest);
+    text-decoration-color: var(--color-herbal);
+  }
+
+  .prose :global(blockquote) {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--color-forest);
+    border-left: 2px solid var(--color-herbal);
+    margin: 2.2em 0;
+    padding-left: 1.4em;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-bottom: 1.4em;
+    padding-left: 1.4em;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.5em;
+  }
+
+  .prose :global(img) {
+    width: 100%;
+    height: auto;
+    margin: 2em 0;
+  }
+
+  .related {
+    background: var(--color-cream-soft);
+  }
+
+  .related__eyebrow {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .related__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+  }
+</style>

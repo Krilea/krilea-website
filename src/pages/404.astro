@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import butterfly from '../assets/logo/butterfly.png';
+---
+
+<BaseLayout title="Страницата не е намерена" description="Тази страница не съществува или е преместена." noindex>
+  <section class="section not-found">
+    <div class="container container--narrow">
+      <Image src={butterfly} alt="" width={140} height={141} loading="eager" />
+      <p class="eyebrow not-found__eyebrow">404</p>
+      <h1>Тази пътека все още не е разчистена</h1>
+      <p class="not-found__text">
+        Страницата, която търсите, не съществува или е била преместена. Върнете се към началото или разгледайте
+        Журнала.
+      </p>
+      <div class="not-found__actions">
+        <a href="/" class="btn btn--solid">Към началото</a>
+        <a href="/zhurnal/" class="btn">Към Журнала</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    text-align: center;
+    padding-block: clamp(5rem, 12vw, 9rem);
+  }
+
+  .not-found :global(img) {
+    margin-inline: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .not-found__eyebrow {
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: 0.3em;
+  }
+
+  .not-found__text {
+    max-width: 28rem;
+    margin: 1rem auto 2rem;
+    color: #4a544b;
+  }
+
+  .not-found__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

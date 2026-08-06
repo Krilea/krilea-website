@@ -1,0 +1,176 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BotanicalDivider from '../components/icons/BotanicalDivider.astro';
+import ValuesList from '../components/ValuesList.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import butterfly from '../assets/logo/butterfly.png';
+import { SITE } from '../config/site';
+---
+
+<BaseLayout
+  title="За бранда"
+  description="KRILEA се роди от личен път към здрава коса. Разказваме за философията, ценностите и символиката зад бранда."
+>
+  <header class="section za-branda-header">
+    <div class="container container--narrow">
+      <Image src={butterfly} alt="" width={170} height={171} loading="eager" class="za-branda-header__butterfly" />
+      <p class="eyebrow za-branda-header__eyebrow">За бранда</p>
+      <h1>{SITE.brandEssence}</h1>
+    </div>
+  </header>
+
+  <section class="section za-branda-story">
+    <div class="container container--narrow">
+      <BotanicalDivider class="za-branda-story__divider" />
+      <p class="eyebrow">Историята</p>
+      <div class="prose">
+        <p>
+          KRILEA е резултат на лична история - историята за коса, която губеше своята сила, гъстота и жизненост. След
+          многобройни опити за възстановяване и поредица разочарования се затвърди една вяра: природата, подкрепена
+          от науката, дава най-трайните резултати. Връщане към естествените средства, познати от поколения и това,
+          което съвременната наука може да добави към тяхната мъдрост, без да отнема нищо от чистотата им.
+        </p>
+        <p>
+          Така се роди идеята за KRILEA — не като бърз отговор, а бавно, внимателно изграден подход. Марка, която
+          уважава времето, необходимо за възстановяване на косата и която избира качеството на съставката пред
+          обещанието върху опаковката.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark za-branda-philosophy">
+    <div class="container container--narrow">
+      <BotanicalDivider onDark class="divider--on-dark za-branda-philosophy__divider" />
+      <p class="eyebrow eyebrow--on-dark">Философия</p>
+      <p class="za-branda-philosophy__text">
+        Вярваме, че истинската грижа за косата не бърза. Тя се гради върху чисти съставки, доказани от традицията, и
+        внимание към детайла — от билката, събрана в правилния момент, до формулата, замислена да работи за косъма, а
+        не срещу него.
+      </p>
+    </div>
+  </section>
+
+  <ValuesList />
+
+  <section class="section za-branda-symbol">
+    <div class="container container--narrow">
+      <BotanicalDivider class="za-branda-symbol__divider" />
+      <p class="eyebrow">Символиката на пеперудата</p>
+      <div class="prose">
+        <p>
+          Пеперудата в сърцето на KRILEA не е случаен избор. Тя носи трансформация — бавен, търпелив преход от едно
+          състояние към друго, точно както косата се възстановява стъпка по стъпка, а не с едно единствено чудо.
+        </p>
+        <p>
+          Тя носи и лекота — усещането, което искаме да върнем на всяка коса, освободена от тежестта на агресивна
+          грижа. И носи природа — корените на билките в илюстрацията на бранда напомнят, че истинската красота остава
+          свързана със земята, от която произлиза.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark za-branda-cta">
+    <div class="container container--narrow">
+      <p class="za-branda-cta__lead">
+        Продължението на тази история се пише в Журнала — статия по статия, билка по билка.
+      </p>
+      <a href="/zhurnal/" class="btn btn--on-dark za-branda-cta__link">Към Журнала</a>
+      <BotanicalDivider onDark class="divider--on-dark za-branda-cta__divider" />
+      <NewsletterForm variant="full" onDark={true} />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .za-branda-header {
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+
+  .za-branda-header__butterfly {
+    margin-inline: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .za-branda-header__eyebrow {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .za-branda-header h1 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--color-forest);
+  }
+
+  .za-branda-story {
+    padding-top: 0.5rem;
+  }
+
+  .za-branda-story__divider {
+    margin-bottom: 2.5rem;
+  }
+
+  .za-branda-story .eyebrow,
+  .za-branda-symbol .eyebrow {
+    text-align: center;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  .za-branda-symbol__divider {
+    margin-bottom: 2.5rem;
+  }
+
+  .za-branda-philosophy {
+    text-align: center;
+  }
+
+  .za-branda-philosophy__divider {
+    margin-bottom: 1.8rem;
+  }
+
+  .za-branda-philosophy__text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    line-height: 1.7;
+  }
+
+  .za-branda-cta {
+    text-align: center;
+  }
+
+  .za-branda-cta__lead {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    max-width: 30rem;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+  }
+
+  .za-branda-cta__link {
+    margin-bottom: 2.5rem;
+  }
+
+  .za-branda-cta__divider {
+    margin-bottom: 2.5rem;
+  }
+
+  .za-branda-cta :global(.newsletter) {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .za-branda-cta :global(.newsletter__row) {
+    justify-content: center;
+  }
+
+  .za-branda-cta :global(.newsletter__consent) {
+    justify-content: center;
+    text-align: left;
+  }
+</style>

@@ -1,0 +1,100 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+  return paginate(posts, { pageSize: 7 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const [featured, ...rest] = page.currentPage === 1 ? page.data : [undefined, ...page.data];
+---
+
+<BaseLayout
+  title="Журнал"
+  description="Образователен блог на KRILEA — статии за съставки, билки и методи за възстановяване на косата."
+>
+  <header class="section zhurnal-header">
+    <div class="container container--narrow">
+      <p class="eyebrow zhurnal-header__eyebrow">Журнал</p>
+      <h1 class="zhurnal-header__title">Знание, преди грижа</h1>
+      <p class="zhurnal-header__lead">
+        Статии за съставки и методи за възстановяване на косата, които изграждат разбиране, не бързи обещания.
+      </p>
+    </div>
+  </header>
+
+  <section class="section zhurnal-list">
+    <div class="container">
+      {featured && (
+        <div class="zhurnal-list__featured">
+          <ArticleCard entry={featured} featured />
+        </div>
+      )}
+
+      {rest.length > 0 && (
+        <div class="zhurnal-list__grid">
+          {rest.map((entry) => <ArticleCard entry={entry} />)}
+        </div>
+      )}
+
+      {page.lastPage > 1 && (
+        <nav class="zhurnal-list__pagination" aria-label="Странициране">
+          {page.url.prev && <a href={page.url.prev} class="btn">Предишни</a>}
+          <span>Страница {page.currentPage} от {page.lastPage}</span>
+          {page.url.next && <a href={page.url.next} class="btn">Следващи</a>}
+        </nav>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .zhurnal-header {
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+
+  .zhurnal-header__eyebrow {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .zhurnal-header__title {
+    font-weight: 400;
+  }
+
+  .zhurnal-header__lead {
+    color: #4a544b;
+    font-size: 1.05rem;
+    max-width: 38rem;
+    margin-inline: auto;
+  }
+
+  .zhurnal-list__featured {
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+
+  .zhurnal-list__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+  }
+
+  .zhurnal-list__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    font-size: 0.85rem;
+    color: var(--color-sage);
+  }
+</style>

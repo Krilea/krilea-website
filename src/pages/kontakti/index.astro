@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import SocialIcon from '../../components/icons/SocialIcon.astro';
+import BotanicalDivider from '../../components/icons/BotanicalDivider.astro';
+import { SITE, SOCIAL } from '../../config/site';
+
+const socialEntries = Object.entries(SOCIAL).filter(([, url]) => url) as [keyof typeof SOCIAL, string][];
+---
+
+<BaseLayout
+  title="Контакти"
+  description="Пишете ни на hello@krilea.eu или през формата за контакт — с радост ще ви отговорим."
+>
+  <header class="section kontakti-header">
+    <div class="container container--narrow">
+      <p class="eyebrow kontakti-header__eyebrow">Контакти</p>
+      <h1 class="kontakti-header__title">Ще се радваме да споделите</h1>
+      <p class="kontakti-header__lead">
+        За въпроси, идеи или просто добра дума — пишете ни. Всяко съобщение получава внимателен и личен отговор.
+      </p>
+      <a href={`mailto:${SITE.email}`} class="kontakti-header__email">{SITE.email}</a>
+    </div>
+  </header>
+
+  <section class="section kontakti-body">
+    <div class="container container--narrow kontakti-body__grid">
+      <ContactForm />
+
+      <div class="kontakti-body__aside">
+        <BotanicalDivider />
+        <p class="eyebrow">Последвайте ни</p>
+        {socialEntries.length > 0 && (
+          <div class="kontakti-body__social">
+            {socialEntries.map(([name, url]) => (
+              <a href={url} target="_blank" rel="noopener noreferrer" aria-label={name}>
+                <SocialIcon name={name} />
+                <span>{name.charAt(0).toUpperCase() + name.slice(1)}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .kontakti-header {
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+
+  .kontakti-header__eyebrow {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .kontakti-header__title {
+    text-align: center;
+    font-size: clamp(2rem, 3.2vw, 2.6rem);
+  }
+
+  .kontakti-header__lead {
+    color: #4a544b;
+    max-width: 34rem;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+  }
+
+  .kontakti-header__email {
+    display: table;
+    margin-inline: auto;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    color: var(--color-forest);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-herbal);
+  }
+
+  .kontakti-body__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 4rem;
+  }
+
+  .kontakti-body__aside {
+    text-align: center;
+  }
+
+  .kontakti-body__aside .eyebrow {
+    margin: 1.5rem 0;
+  }
+
+  .kontakti-body__social {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .kontakti-body__social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--color-forest);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .kontakti-body__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

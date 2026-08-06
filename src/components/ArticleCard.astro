@@ -1,0 +1,96 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+  featured?: boolean;
+}
+
+const { entry, featured = false } = Astro.props;
+const { title, description, cover, coverAlt, pubDate } = entry.data;
+
+const formattedDate = new Intl.DateTimeFormat('bg-BG', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(pubDate);
+---
+
+<a href={`/zhurnal/${entry.id}/`} class:list={['article-card', { 'article-card--featured': featured }]}>
+  <div class="article-card__media">
+    <img src={cover} alt={coverAlt} loading={featured ? 'eager' : 'lazy'} decoding="async" />
+  </div>
+  <div class="article-card__body">
+    <p class="article-card__date">{formattedDate}</p>
+    <h3 class="article-card__title">{title}</h3>
+    <p class="article-card__excerpt">{description}</p>
+    <span class="article-card__link">Прочетете статията</span>
+  </div>
+</a>
+
+<style>
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    group: card;
+  }
+
+  .article-card__media {
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--color-cream-soft);
+  }
+
+  .article-card--featured .article-card__media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .article-card__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .article-card:hover .article-card__media :global(img) {
+    transform: scale(1.035);
+  }
+
+  .article-card__body {
+    padding-top: 1.3rem;
+  }
+
+  .article-card__date {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-sage);
+    margin-bottom: 0.6rem;
+  }
+
+  .article-card__title {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .article-card--featured .article-card__title {
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+  }
+
+  .article-card__excerpt {
+    color: #4a544b;
+    font-size: 0.94rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .article-card__link {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-forest);
+    border-bottom: 1px solid var(--color-herbal);
+    padding-bottom: 2px;
+  }
+</style>

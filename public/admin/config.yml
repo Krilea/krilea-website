@@ -1,0 +1,48 @@
+backend:
+  name: git-gateway
+  branch: main
+
+locale: "bg"
+
+site_url: https://krilea.eu
+display_url: https://krilea.eu
+logo_url: /icon-512.png
+
+media_folder: "public/uploads/blog"
+public_folder: "/uploads/blog"
+
+collections:
+  - name: "blog"
+    label: "Статии (Журнал)"
+    label_singular: "Статия"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}} — {{fields.draft}}"
+    sortable_fields: ["pubDate", "title"]
+    fields:
+      - { label: "Заглавие", name: "title", widget: "string" }
+      - { label: "Кратко описание (за SEO и карти)", name: "description", widget: "text" }
+      - { label: "Дата на публикуване", name: "pubDate", widget: "datetime" }
+      - { label: "Дата на последна редакция", name: "updatedDate", widget: "datetime", required: false }
+      - { label: "Корица", name: "cover", widget: "image" }
+      - { label: "Алтернативен текст на корицата", name: "coverAlt", widget: "string" }
+      - { label: "Тагове", name: "tags", widget: "list", default: [] }
+      - { label: "Чернова (не се публикува на сайта)", name: "draft", widget: "boolean", default: true }
+      - { label: "Автор", name: "author", widget: "string", default: "KRILEA" }
+      - { label: "Съдържание", name: "body", widget: "markdown" }
+
+  - name: "reviews"
+    label: "Отзиви (Фаза 2 — неактивна)"
+    label_singular: "Отзив"
+    folder: "src/content/reviews"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    fields:
+      - { label: "Име", name: "name", widget: "string" }
+      - { label: "Текст на отзива", name: "text", widget: "text" }
+      - { label: "Оценка (1–5)", name: "rating", widget: "number", min: 1, max: 5 }
+      - { label: "Дата", name: "date", widget: "datetime" }
+      - { label: "Публикуван", name: "published", widget: "boolean", default: false }

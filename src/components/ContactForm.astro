@@ -1,0 +1,77 @@
+---
+---
+<form
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  action="/kontakti/blagodarim/"
+  class="contact-form"
+>
+  <input type="hidden" name="form-name" value="contact" />
+  <p class="visually-hidden">
+    <label>Не попълвайте това поле: <input name="bot-field" /></label>
+  </p>
+
+  <div class="contact-form__field">
+    <label for="name">Име</label>
+    <input type="text" id="name" name="name" required autocomplete="name" />
+  </div>
+
+  <div class="contact-form__field">
+    <label for="email">Имейл</label>
+    <input type="email" id="email" name="email" required autocomplete="email" />
+  </div>
+
+  <div class="contact-form__field">
+    <label for="message">Съобщение</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn--solid">Изпратете съобщението</button>
+</form>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    max-width: 34rem;
+  }
+
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contact-form__field label {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-forest);
+  }
+
+  .contact-form__field input,
+  .contact-form__field textarea {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    padding: 0.75rem 0.2rem;
+    border: none;
+    border-bottom: 1px solid var(--color-sage);
+    background: transparent;
+    color: var(--color-ink);
+    outline: none;
+    resize: vertical;
+  }
+
+  .contact-form__field input:focus,
+  .contact-form__field textarea:focus {
+    border-bottom-color: var(--color-herbal);
+  }
+
+  .contact-form button {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+</style>

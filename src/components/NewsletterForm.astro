@@ -1,0 +1,188 @@
+---
+interface Props {
+  variant?: 'full' | 'compact';
+  onDark?: boolean;
+}
+const { variant = 'full', onDark = true } = Astro.props;
+const isCompact = variant === 'compact';
+---
+
+<div class:list={['newsletter', { 'newsletter--compact': isCompact, 'newsletter--on-dark': onDark }]}>
+  {!isCompact && <p class:list={['eyebrow', { 'eyebrow--on-dark': onDark }]}>Нещо специално предстои</p>}
+  <h3 class="newsletter__heading">{isCompact ? 'Останете в течение' : 'Бъдете сред първите, които ще научат'}</h3>
+  {!isCompact && (
+    <p class="newsletter__text">
+      Оставете своя имейл, за да получавате редовете на Журнала и да сте сред първите, до които ще стигне всяка новина от KRILEA.
+    </p>
+  )}
+
+  <form class="newsletter__form" data-newsletter-form novalidate>
+    <div class="newsletter__row">
+      <label class="visually-hidden" for={`email-${variant}`}>Имейл адрес</label>
+      <input
+        type="email"
+        id={`email-${variant}`}
+        name="email"
+        placeholder="вашият имейл адрес"
+        required
+        autocomplete="email"
+      />
+      <button type="submit" class:list={['btn', onDark ? 'btn--on-dark' : 'btn--solid']}>
+        <span data-btn-label>Абонирайте се</span>
+      </button>
+    </div>
+
+    <label class="newsletter__consent">
+      <input type="checkbox" name="consent" required />
+      <span>
+        Съгласен/а съм да получавам имейли от KRILEA и приемам
+        <a href="/politika-za-poveritelnost/">Политиката за поверителност</a>.
+      </span>
+    </label>
+
+    <p class="newsletter__message" data-newsletter-message role="status" aria-live="polite"></p>
+  </form>
+</div>
+
+<style>
+  .newsletter {
+    max-width: 30rem;
+  }
+  .newsletter--compact {
+    max-width: 22rem;
+  }
+
+  .newsletter__heading {
+    font-size: 1.5rem;
+    margin-top: 0.4rem;
+  }
+  .newsletter--compact .newsletter__heading {
+    font-size: 1.15rem;
+    margin-top: 0;
+  }
+
+  .newsletter--on-dark .newsletter__heading {
+    color: var(--color-cream-text);
+  }
+
+  .newsletter__text {
+    color: var(--color-sage-soft);
+    font-size: 0.95rem;
+  }
+
+  .newsletter__row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .newsletter__row input[type='email'] {
+    flex: 1 1 14rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-sage);
+    color: inherit;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    padding: 0.7rem 0.2rem;
+    outline: none;
+  }
+
+  .newsletter--on-dark .newsletter__row input[type='email'] {
+    color: var(--color-cream-text);
+  }
+
+  .newsletter__row input[type='email']::placeholder {
+    color: var(--color-sage);
+  }
+
+  .newsletter__row input[type='email']:focus {
+    border-bottom-color: var(--color-herbal);
+  }
+
+  .newsletter__row button {
+    white-space: nowrap;
+  }
+
+  .newsletter__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--color-sage-soft);
+  }
+
+  .newsletter__consent input {
+    margin-top: 0.25rem;
+    accent-color: var(--color-herbal);
+  }
+
+  .newsletter__consent a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .newsletter__message {
+    margin: 0.75rem 0 0;
+    font-size: 0.85rem;
+    min-height: 1.2em;
+  }
+
+  .newsletter__message[data-state='success'] {
+    color: var(--color-herbal-soft);
+  }
+  .newsletter__message[data-state='error'] {
+    color: #e2b7a8;
+  }
+</style>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]');
+
+  forms.forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const messageEl = form.querySelector<HTMLElement>('[data-newsletter-message]');
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const emailInput = form.querySelector<HTMLInputElement>('input[type="email"]');
+      const consentInput = form.querySelector<HTMLInputElement>('input[name="consent"]');
+
+      if (!emailInput?.checkValidity() || !consentInput?.checked) {
+        form.reportValidity();
+        return;
+      }
+
+      if (button) button.disabled = true;
+      if (messageEl) {
+        messageEl.textContent = 'Изпращане…';
+        messageEl.removeAttribute('data-state');
+      }
+
+      try {
+        const res = await fetch('/.netlify/functions/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailInput.value, consent: true }),
+        });
+
+        if (!res.ok) throw new Error('request-failed');
+
+        form.reset();
+        if (messageEl) {
+          messageEl.textContent = 'Благодарим ви. Ще се свържем скоро с първите новини от KRILEA.';
+          messageEl.setAttribute('data-state', 'success');
+        }
+      } catch {
+        if (messageEl) {
+          messageEl.textContent = 'Възникна грешка. Опитайте отново по-късно или пишете на hello@krilea.eu.';
+          messageEl.setAttribute('data-state', 'error');
+        }
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  });
+</script>
