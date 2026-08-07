@@ -7,7 +7,7 @@ import { SITE } from '../config/site';
 
 <section class="hero">
   <div class="container hero__inner">
-    <Image src={butterfly} alt="" width={170} loading="eager" class="hero__butterfly" />
+    <Image src={butterfly} alt="" width={230} loading="eager" class="hero__butterfly" />
     <h1 class="hero__wordmark-wrap">
       <Image src={wordmark} alt={SITE.name} width={420} loading="eager" class="hero__wordmark" />
     </h1>
@@ -40,7 +40,7 @@ import { SITE } from '../config/site';
   }
 
   .hero__butterfly {
-    width: min(170px, 36vw);
+    width: min(230px, 44vw);
     height: auto;
     margin-bottom: 1.25rem;
   }
@@ -73,7 +73,7 @@ import { SITE } from '../config/site';
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
     line-height: 1.6;
     color: var(--color-cream-text);
     margin-bottom: 3rem;
