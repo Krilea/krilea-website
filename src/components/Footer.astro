@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import { NAV, LEGAL_LINKS, SITE, SOCIAL } from '../config/site';
 import NewsletterForm from './NewsletterForm.astro';
 import SocialIcon from './icons/SocialIcon.astro';
 import BotanicalDivider from './icons/BotanicalDivider.astro';
+import wordmark from '../assets/logo/wordmark-platinum.png';
 
 const socialEntries = Object.entries(SOCIAL).filter(([, url]) => url) as [keyof typeof SOCIAL, string][];
 const year = new Date().getFullYear();
@@ -11,7 +13,9 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="container site-footer__grid">
     <div class="site-footer__brand">
-      <p class="site-footer__wordmark">{SITE.name}</p>
+      <span class="site-footer__wordmark-wrap">
+        <Image src={wordmark} alt={SITE.name} width={190} loading="lazy" class="site-footer__wordmark" />
+      </span>
       <p class="site-footer__tagline">{SITE.tagline}</p>
       <p class="site-footer__essence">{SITE.brandEssence}</p>
       {socialEntries.length > 0 && (
@@ -74,12 +78,18 @@ const year = new Date().getFullYear();
     padding-bottom: 3rem;
   }
 
+  .site-footer__wordmark-wrap {
+    display: block;
+    overflow: visible;
+    padding-block: 0.3rem;
+    margin-bottom: 0.4rem;
+  }
+
   .site-footer__wordmark {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 1.8rem;
-    letter-spacing: 0.15em;
-    margin: 0 0 0.2rem;
+    display: block;
+    width: clamp(150px, 16vw, 200px);
+    height: auto;
+    object-fit: contain;
   }
 
   .site-footer__tagline {

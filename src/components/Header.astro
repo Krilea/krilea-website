@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { NAV, SITE } from '../config/site';
 import butterfly from '../assets/logo/butterfly.png';
+import wordmark from '../assets/logo/wordmark-green.png';
 
 const currentPath = Astro.url.pathname;
 function isActive(href: string) {
@@ -13,8 +14,10 @@ function isActive(href: string) {
 <header class="site-header">
   <div class="container site-header__inner">
     <a href="/" class="site-header__logo" aria-label={`${SITE.name} — начало`}>
-      <Image src={butterfly} alt="" width={40} height={40} loading="eager" />
-      <span class="site-header__wordmark">{SITE.name}</span>
+      <Image src={butterfly} alt="" width={40} loading="eager" class="site-header__butterfly" />
+      <span class="site-header__wordmark-wrap">
+        <Image src={wordmark} alt={SITE.name} width={220} loading="eager" class="site-header__wordmark" />
+      </span>
     </a>
 
     <button
@@ -65,17 +68,22 @@ function isActive(href: string) {
     text-decoration: none;
   }
 
-  .site-header__logo :global(img) {
+  .site-header__logo :global(.site-header__butterfly) {
     height: 38px;
     width: auto;
   }
 
+  .site-header__wordmark-wrap {
+    display: block;
+    overflow: visible;
+    padding-block: 0.2rem;
+  }
+
   .site-header__wordmark {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 1.6rem;
-    letter-spacing: 0.17em;
-    color: var(--color-forest);
+    display: block;
+    width: clamp(96px, 12vw, 130px);
+    height: auto;
+    object-fit: contain;
   }
 
   .site-header__toggle {

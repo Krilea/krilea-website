@@ -1,13 +1,16 @@
 ---
 import { Image } from 'astro:assets';
-import butterfly from '../assets/logo/butterfly.png';
+import butterfly from '../assets/logo/butterfly-on-dark.png';
+import wordmark from '../assets/logo/wordmark-platinum.png';
 import { SITE } from '../config/site';
 ---
 
 <section class="hero">
   <div class="container hero__inner">
-    <Image src={butterfly} alt="" width={170} height={171} loading="eager" class="hero__butterfly" />
-    <h1 class="hero__wordmark">{SITE.name}</h1>
+    <Image src={butterfly} alt="" width={170} loading="eager" class="hero__butterfly" />
+    <h1 class="hero__wordmark-wrap">
+      <Image src={wordmark} alt={SITE.name} width={420} loading="eager" class="hero__wordmark" />
+    </h1>
     <p class="hero__tagline">{SITE.tagline}</p>
     <p class="hero__promise">
       Здрава, силна и жива коса — грижа, вдъхновена от природата и подкрепена от науката.
@@ -42,12 +45,18 @@ import { SITE } from '../config/site';
     margin-bottom: 1.25rem;
   }
 
+  .hero__wordmark-wrap {
+    margin: 0 0 0.6rem;
+    overflow: visible;
+    padding-block: 0.35rem;
+  }
+
   .hero__wordmark {
-    font-weight: 400;
-    font-size: clamp(2.4rem, 6.4vw, 4rem);
-    letter-spacing: 0.17em;
-    margin-bottom: 0.5rem;
-    color: var(--color-cream-text);
+    display: block;
+    width: clamp(260px, 34vw, 480px);
+    height: auto;
+    object-fit: contain;
+    margin-inline: auto;
   }
 
   .hero__tagline {
