@@ -2,7 +2,7 @@ import { Resvg } from '@resvg/resvg-js';
 import sharp from 'sharp';
 import fs from 'node:fs';
 
-const butterflyPng = fs.readFileSync('src/assets/logo/butterfly-on-dark.png');
+const butterflyPng = fs.readFileSync('src/assets/logo/butterfly.png');
 const butterflyB64 = butterflyPng.toString('base64');
 const butterflyMeta = await sharp(butterflyPng).metadata();
 const bH = 190;
