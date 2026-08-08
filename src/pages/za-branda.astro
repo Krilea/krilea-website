@@ -120,6 +120,13 @@ import { SITE } from '../config/site';
     margin-bottom: 1.5rem;
   }
 
+  .za-branda-story .prose p,
+  .za-branda-symbol .prose p {
+    font-size: clamp(1.05rem, 2vw, 1.15rem);
+    font-weight: 400;
+    color: var(--color-ink);
+  }
+
   .za-branda-symbol__divider {
     margin-bottom: 2.5rem;
   }
@@ -136,8 +143,9 @@ import { SITE } from '../config/site';
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
-    line-height: 1.7;
+    font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+    line-height: 1.85;
+    letter-spacing: 0.01em;
   }
 
   .za-branda-cta {
@@ -146,7 +154,8 @@ import { SITE } from '../config/site';
 
   .za-branda-cta__lead {
     font-family: var(--font-serif);
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    letter-spacing: 0.015em;
     max-width: 30rem;
     margin: 0 auto 1.5rem;
     text-align: center;
