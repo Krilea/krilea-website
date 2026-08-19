@@ -28,7 +28,7 @@ export const LEGAL_LINKS = [
 // TikTok, Pinterest и YouTube остават скрити, докато полето е празен низ.
 export const SOCIAL = {
   instagram: 'https://www.instagram.com/krilea.eu',
-  facebook: 'https://www.facebook.com/krilea.eu',
+  facebook: 'https://www.facebook.com/61593104083984',
   tiktok: '',
   pinterest: '',
   youtube: '',
