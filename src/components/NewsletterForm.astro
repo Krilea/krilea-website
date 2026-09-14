@@ -66,8 +66,12 @@ const isCompact = variant === 'compact';
   }
 
   .newsletter__text {
-    color: var(--color-sage-soft);
+    color: #4a544b;
     font-size: 1.05rem;
+  }
+
+  .newsletter--on-dark .newsletter__text {
+    color: var(--color-sage-soft);
   }
 
   .newsletter__row {
@@ -111,6 +115,10 @@ const isCompact = variant === 'compact';
     margin-top: 0.9rem;
     font-size: 0.78rem;
     line-height: 1.5;
+    color: #4a544b;
+  }
+
+  .newsletter--on-dark .newsletter__consent {
     color: var(--color-sage-soft);
   }
 
